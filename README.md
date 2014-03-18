@@ -1,6 +1,8 @@
 gliml
 =====
 
+(work in progress!)
+
 Minimalistic image loader library for GL projects:
 
 - header only, just include a header and optionally set a few defines to enable or disable features
