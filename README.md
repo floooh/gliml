@@ -4,6 +4,7 @@ gliml
 Minimalistic image loader library for GL projects:
 
 - header only, just include a header and optionally set a few defines to enable or disable features
+- focus on compressed formats that can be dumped right into GL texture objects
 - doesn't use C++ exceptions, RTTI, STL, strings or file functions
 - doesn't call into GL, doesn't include GL headers
 - no dynamic memory allocation if image file format allows it
