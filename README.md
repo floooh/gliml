@@ -9,6 +9,14 @@ Minimalistic image loader library for GL projects:
 - no dynamic memory allocation if image file format allows it
 - overridable assert and memory allocation functions
 
+Basic usage:
+
+1. load file data into memory
+2. create empty **gliml::context** object 
+3. call **gliml::load()** to 'convert' the file data into the gliml::context object
+4. setup a GL texture using the data in the gliml::context object
+5. call **gliml::release()** to free any dynamically allocated memory
+
 Sample code (WIP):
 
 ```cpp
@@ -25,7 +33,7 @@ void main() {
     file.read(buffer.data(), size);
     file.close();
     
-    // now extract the data into GL data using gliml, gliml tries
+    // now extract the file data into GL data using gliml, gliml tries
     // to determine the file format from the image data
     gliml::context ctx;
     if (gliml::load(ctx, &(buffer.front()), size)) {
