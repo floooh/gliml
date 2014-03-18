@@ -91,29 +91,29 @@ void main() {
                     // uncompressed
                     if (ctx.is_2d()) {
                         // 2D or CUBE texture
-                        glTexImage2D(ctx.image_target(face),
+                        glTexImage2D(ctx.image_target(face_index),
                                      mip,
                                      ctx.image_internal_format(),
-                                     ctx.image_width(mip),
-                                     ctx.image_height(mip),
+                                     ctx.image_width(mip_index),
+                                     ctx.image_height(mip_index),
                                      0,
                                      ctx.image_format(),
                                      ctx.image_type(),
-                                     ctx.image_data(face, mip));
+                                     ctx.image_data(face_index, mip_index));
                     }
                     else {
                         // 3D texture
                         assert(ctx.is_3d());
-                        glTexImage3D(ctx.image_target(face),
+                        glTexImage3D(ctx.image_target(face_index),
                                      mip,
                                      ctx.image_internal_format(),
-                                     ctx.image_width(mip),
-                                     ctx.image_height(mip),
-                                     ctx.image_depth(mip),
+                                     ctx.image_width(mip_index),
+                                     ctx.image_height(mip_index),
+                                     ctx.image_depth(mip_index),
                                      0,
                                      ctx.image_format(),
                                      ctx.image_type(),
-                                     ctx.image_data(face, mip));
+                                     ctx.image_data(face_index, mip_index));
                     }
                 }
             } // for mip...
