@@ -36,7 +36,7 @@ void main() {
     // now extract the file data into GL data using gliml, gliml tries
     // to determine the file format from the image data
     gliml::context ctx;
-    if (gliml::load(ctx, &(buffer.front()), size)) {
+    if (gliml::load(ctx, &buffer.front(), size)) {
         
         // create a GL texture
         GLuint gltx;
