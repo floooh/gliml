@@ -11,8 +11,8 @@
     GLIML_NO_PVR        - don't include PVR support
 */
 
-#ifndef GLIM_ASSERT
-#define GLIM_ASSERT(x) assert(x)
+#ifndef GLIML_ASSERT
+#define GLIML_ASSERT(x) assert(x)
 #endif
 
 #ifndef GL_VERSION_1_1
@@ -34,7 +34,7 @@ typedef double GLclampd;
 typedef void GLvoid;
 #endif
 
-#ifndef GLIM_NO_DDS
+#ifndef GLIML_NO_DDS
 #include "gliml_dds.h"
 #endif
 
