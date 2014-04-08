@@ -39,7 +39,7 @@ void main() {
     // now extract the file data into GL data using gliml, gliml tries
     // to determine the file format from the image data
     gliml::context ctx;
-    if (gliml::load(ctx, &buffer.front(), size)) {
+    if (ctx.load(&buffer.front(), size)) {
         
         // create a GL texture
         GLuint gltx;
@@ -70,10 +70,10 @@ void main() {
                         glCompressedTexImage2D(ctx.image_target(face_index),
                                                mip_index,
                                                ctx.image_internal_format(),
-                                               ctx.image_width(mip_index),
-                                               ctx.image_height(mip_index),
+                                               ctx.image_width(face_index, mip_index),
+                                               ctx.image_height(face_index, mip_index),
                                                0,
-                                               ctx.image_size(mip_index),
+                                               ctx.image_size(face_index, mip_index),
                                                ctx.image_data(face_index, mip_index));
                     }
                     else {
@@ -82,11 +82,11 @@ void main() {
                         glCompressedTexImage3D(ctx.image_target(face_index),
                                                mip_index,
                                                ctx.image_internal_format(),
-                                               ctx.image_width(mip_index),
-                                               ctx.image_height(mip_index),
-                                               ctx.image_depth(mip_index),
+                                               ctx.image_width(face_index, mip_index),
+                                               ctx.image_height(face_index, mip_index),
+                                               ctx.image_depth(face_index, mip_index),
                                                0,
-                                               ctx.image_size(mip_index),
+                                               ctx.image_size(face_index, mip_index),
                                                ctx.image_data(face_index, mip_index));
                     }
                 }
@@ -97,8 +97,8 @@ void main() {
                         glTexImage2D(ctx.image_target(face_index),
                                      mip,
                                      ctx.image_internal_format(),
-                                     ctx.image_width(mip_index),
-                                     ctx.image_height(mip_index),
+                                     ctx.image_width(face_index, mip_index),
+                                     ctx.image_height(face_index, mip_index),
                                      0,
                                      ctx.image_format(),
                                      ctx.image_type(),
@@ -110,9 +110,9 @@ void main() {
                         glTexImage3D(ctx.image_target(face_index),
                                      mip,
                                      ctx.image_internal_format(),
-                                     ctx.image_width(mip_index),
-                                     ctx.image_height(mip_index),
-                                     ctx.image_depth(mip_index),
+                                     ctx.image_width(face_index, mip_index),
+                                     ctx.image_height(face_index, mip_index),
+                                     ctx.image_depth(face_index, mip_index),
                                      0,
                                      ctx.image_format(),
                                      ctx.image_type(),
@@ -121,9 +121,6 @@ void main() {
                 }
             } // for mip...
         } // for face...
-
-        // release dynamically allocated data (if any)
-        gliml::release(ctx);
     }
 }
 ```
