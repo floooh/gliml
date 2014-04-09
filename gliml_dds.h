@@ -3,7 +3,7 @@
 /**
     gliml_dds.h
     DDS specific code of gliml, derived from nvdds.cpp:
-    https://github.com/tlorach/nvFX/blob/master/samples/shared/nvImage/nvImageDDS.cpp
+    https://github.com/tlorach/nvFX/blob/master/samples/shared/nv_dds/nv_dds.cpp
 */
 
 struct dds_pixelformat {

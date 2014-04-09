@@ -55,8 +55,10 @@ typedef float           GLclampf;       /* single precision float in [0,1] */
 typedef double          GLdouble;       /* double precision float */
 typedef double          GLclampd;       /* double precision float in [0,1] */
     
+#ifndef GLIML_NO_DDS
 /// test if image data is DDS
 bool is_dds(const void* data, unsigned int size);
+#endif
     
 class context {
 public:
@@ -103,8 +105,6 @@ public:
     const GLvoid* image_data(int face_index, int mip_index) const;
     
 private:
-    friend class gliml_dds;
-
     /// clear the object
     void clear();
 
