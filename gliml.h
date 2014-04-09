@@ -2,7 +2,7 @@
 //------------------------------------------------------------------------------
 /**
     gliml - GL image loader library
-
+    
     gliml main header file. Include this file after the GL header, and 
     optionally define the following macros before the include:
     
@@ -15,31 +15,48 @@
 #define GLIML_ASSERT(x) assert(x)
 #endif
 
-#ifndef GL_VERSION_1_1
-typedef unsigned int GLenum;
-typedef unsigned int GLbitfield;
-typedef unsigned int GLuint;
-typedef int GLint;
-typedef int GLsizei;
-typedef unsigned char GLboolean;
-typedef signed char GLbyte;
-typedef short GLshort;
-typedef unsigned char GLubyte;
-typedef unsigned short GLushort;
-typedef unsigned long GLulong;
-typedef float GLfloat;
-typedef float GLclampf;
-typedef double GLdouble;
-typedef double GLclampd;
-typedef void GLvoid;
-#endif
-
-#ifndef GLIML_NO_DDS
-#include "gliml_dds.h"
-#endif
+// see GL headers
+#define GLIML_GL_TEXTURE_2D 0x0DE1
+#define GLIML_GL_TEXTURE_3D 0x806F
+#define GLIML_GL_COMPRESSED_RGBA_S3TC_DXT1_EXT 0x83F1
+#define GLIML_GL_COMPRESSED_RGBA_S3TC_DXT3_EXT 0x83F2
+#define GLIML_GL_COMPRESSED_RGBA_S3TC_DXT5_EXT 0x83F3
+#define GLIML_GL_BGR 0x80E0
+#define GLIML_GL_BGRA 0x80E1
+#define GLIML_GL_RGB8 0x8051
+#define GLIML_GL_RGBA8 0x8058
+#define GLIML_GL_RED 0x1903
+#define GLIML_GL_LUMINANCE 0x1909
+#define GLIML_GL_TEXTURE_CUBE_MAP_POSITIVE_X 0x8515
+#define GLIML_GL_TEXTURE_CUBE_MAP_NEGATIVE_X 0x8516
+#define GLIML_GL_TEXTURE_CUBE_MAP_POSITIVE_Y 0x8517
+#define GLIML_GL_TEXTURE_CUBE_MAP_NEGATIVE_Y 0x8518
+#define GLIML_GL_TEXTURE_CUBE_MAP_POSITIVE_Z 0x8519
+#define GLIML_GL_TEXTURE_CUBE_MAP_NEGATIVE_Z 0x851A
+#define GLIML_GL_UNSIGNED_BYTE 0x1401
 
 //------------------------------------------------------------------------------
 namespace gliml {
+
+/// these typedefs are inside the gliml namespace, but GL compatible
+typedef unsigned int    GLenum;
+typedef unsigned char   GLboolean;
+typedef unsigned int    GLbitfield;
+typedef void            GLvoid;
+typedef signed char     GLbyte;         /* 1-byte signed */
+typedef short           GLshort;        /* 2-byte signed */
+typedef int             GLint;          /* 4-byte signed */
+typedef unsigned char   GLubyte;        /* 1-byte unsigned */
+typedef unsigned short  GLushort;       /* 2-byte unsigned */
+typedef unsigned int    GLuint;         /* 4-byte unsigned */
+typedef int             GLsizei;        /* 4-byte signed */
+typedef float           GLfloat;        /* single precision float */
+typedef float           GLclampf;       /* single precision float in [0,1] */
+typedef double          GLdouble;       /* double precision float */
+typedef double          GLclampd;       /* double precision float in [0,1] */
+    
+/// test if image data is DDS
+bool is_dds(const void* data, unsigned int size);
     
 class context {
 public:
@@ -48,8 +65,12 @@ public:
     /// destructor
     ~context();
     
-    /// load image data into context
-    bool load(const void* data, int size);
+    #ifndef GLIML_NO_DDS
+    /// load DDS image data into context
+    bool load_dds(const void* data, unsigned int size);
+    #endif
+    /// get detailed error code if load returns false
+    int error() const;
     /// get the texture target of context
     GLenum texture_target() const;
     /// return true if context contains a compressed texture
@@ -82,9 +103,15 @@ public:
     const GLvoid* image_data(int face_index, int mip_index) const;
     
 private:
+    friend class gliml_dds;
+
+    /// clear the object
+    void clear();
+
     static const int MaxNumFaces = 6;
     static const int MaxNumMipmaps = 16;
-
+    
+    int errorCode;
     GLenum target;
     bool isCompressed;
     bool is2D;
@@ -102,11 +129,17 @@ private:
             GLsizei depth;
             GLsizei size;
             const GLvoid* data;
-        } mipmaps[MaxNumMipMaps];
+        } mipmaps[MaxNumMipmaps];
     } faces[MaxNumFaces];
 };
 
+#define GLIML_SUCCESS (0)
+#define GLIML_ERROR_INVALID_COMPRESSED_FORMAT (1)
+
 #include "gliml.inl"
+#ifndef GLIML_NO_DDS
+#include "gliml_dds.h"
+#endif
 
 } // namespace gliml
 //------------------------------------------------------------------------------
