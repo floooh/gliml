@@ -59,7 +59,7 @@ typedef double          GLclampd;       /* double precision float in [0,1] */
 /// test if image data is DDS
 bool is_dds(const void* data, unsigned int size);
 #endif
-    
+
 class context {
 public:
     /// default constructor

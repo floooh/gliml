@@ -8,6 +8,11 @@ inline context::context() {
 }
 
 //------------------------------------------------------------------------------
+inline context::~context() {
+    // empty
+}
+
+//------------------------------------------------------------------------------
 inline void
 context::clear() {
     this->errorCode = GLIML_SUCCESS;

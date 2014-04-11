@@ -6,32 +6,34 @@
     https://github.com/tlorach/nvFX/blob/master/samples/shared/nv_dds/nv_dds.cpp
 */
 
+#pragma pack(push, 1)
 struct dds_pixelformat {
-    unsigned long dwSize;
-    unsigned long dwFlags;
-    unsigned long dwFourCC;
-    unsigned long dwRGBBitCount;
-    unsigned long dwRBitMask;
-    unsigned long dwGBitMask;
-    unsigned long dwBBitMask;
-    unsigned long dwABitMask;
+    unsigned int dwSize;
+    unsigned int dwFlags;
+    unsigned int dwFourCC;
+    unsigned int dwRGBBitCount;
+    unsigned int dwRBitMask;
+    unsigned int dwGBitMask;
+    unsigned int dwBBitMask;
+    unsigned int dwABitMask;
 };
     
 struct dds_header {
-    unsigned long dwMagicFourCC;
-    unsigned long dwSize;
-    unsigned long dwFlags;
-    unsigned long dwHeight;
-    unsigned long dwWidth;
-    unsigned long dwPitchOrLinearSize;
-    unsigned long dwDepth;
-    unsigned long dwMipMapCount;
-    unsigned long dwReserved[11];
+    unsigned int dwMagicFourCC;
+    unsigned int dwSize;
+    unsigned int dwFlags;
+    unsigned int dwHeight;
+    unsigned int dwWidth;
+    unsigned int dwPitchOrLinearSize;
+    unsigned int dwDepth;
+    unsigned int dwMipMapCount;
+    unsigned int dwReserved[11];
     dds_pixelformat ddspf;
-    unsigned long dwCaps1;
-    unsigned long dwCaps2;
-    unsigned long dwReserved2[3];
+    unsigned int dwCaps1;
+    unsigned int dwCaps2;
+    unsigned int dwReserved2[3];
 };
+#pragma pack(pop)
 
 // surface description flags
 #define GLIML_DDSF_CAPS 0x00000001

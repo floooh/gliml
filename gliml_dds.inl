@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-//  gliml.inl
+//  gliml_dds.inl
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
@@ -7,7 +7,7 @@ bool
 is_dds(const void* data, unsigned int byteSize) {
     if (byteSize > sizeof(dds_header)) {
         const dds_header* hdr = (const dds_header*) data;
-        return (hdr->dwMagicFourCC == 'DDS ');
+        return hdr->dwMagicFourCC == ' SDD';
     }
     return false;
 }
@@ -16,9 +16,11 @@ is_dds(const void* data, unsigned int byteSize) {
 bool
 context::load_dds(const void* data, unsigned int byteSize) {
     GLIML_ASSERT(gliml::is_dds(data, byteSize));
+    this->clear();
     
+    // need to endian-convert the header data
     const dds_header* hdr = (const dds_header*) data;
-    unsigned char* dataBytePtr = (unsigned char*) hdr;
+    const unsigned char* dataBytePtr = (const unsigned char*) hdr;
     dataBytePtr += sizeof(dds_header);
 
     // cubemap?
@@ -48,6 +50,7 @@ context::load_dds(const void* data, unsigned int byteSize) {
     // image format
     int bytesPerElement = 0;
     if (hdr->ddspf.dwFlags & GLIML_DDSF_FOURCC) {
+        this->isCompressed = true;
         switch (hdr->ddspf.dwFourCC) {
             case GLIML_FOURCC_DXT1:
                 this->format = this->internalFormat = GLIML_GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
@@ -142,6 +145,7 @@ context::load_dds(const void* data, unsigned int byteSize) {
             dataBytePtr += curMip.size;
         }
     }
+    GLIML_ASSERT(dataBytePtr == ((const unsigned char*)data) + byteSize);
     
     // ...and we're done
     return true;
