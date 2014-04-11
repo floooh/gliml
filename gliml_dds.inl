@@ -18,7 +18,6 @@ context::load_dds(const void* data, unsigned int byteSize) {
     GLIML_ASSERT(gliml::is_dds(data, byteSize));
     this->clear();
     
-    // need to endian-convert the header data
     const dds_header* hdr = (const dds_header*) data;
     const unsigned char* dataBytePtr = (const unsigned char*) hdr;
     dataBytePtr += sizeof(dds_header);
