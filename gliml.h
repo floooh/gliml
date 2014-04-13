@@ -34,6 +34,8 @@
 #define GLIML_GL_TEXTURE_CUBE_MAP_POSITIVE_Z 0x8519
 #define GLIML_GL_TEXTURE_CUBE_MAP_NEGATIVE_Z 0x851A
 #define GLIML_GL_UNSIGNED_BYTE 0x1401
+#define GLIML_GL_RGBA 0x1908
+#define GLIML_GL_RGB 0x1907
 
 //------------------------------------------------------------------------------
 namespace gliml {

@@ -69,20 +69,24 @@ context::load_dds(const void* data, unsigned int byteSize) {
         }
     }
     else if ((hdr->ddspf.dwFlags & GLIML_DDSF_RGBA) && (hdr->ddspf.dwRGBBitCount == 32)) {
-        this->format = GLIML_GL_BGRA;
-        this->internalFormat = GLIML_GL_RGBA8;
+        // FIXME: this is actually BGRA, but this isn't support in OpenGLES2
+        // oh, what to do....
+        this->format = GLIML_GL_RGBA;
+        this->internalFormat = GLIML_GL_RGBA;
         this->type = GLIML_GL_UNSIGNED_BYTE;
         bytesPerElement = 4;
     }
     else if ((hdr->ddspf.dwFlags & GLIML_DDSF_RGB) && (hdr->ddspf.dwRGBBitCount == 32)) {
-        this->format = GLIML_GL_BGRA;
-        this->internalFormat = GLIML_GL_RGBA8;
+        // FIXME: this is actually BGRA, but this isn't support in OpenGLES2
+        this->format = GLIML_GL_RGBA;
+        this->internalFormat = GLIML_GL_RGBA;
         this->type = GLIML_GL_UNSIGNED_BYTE;
         bytesPerElement = 4;
     }
     else if ((hdr->ddspf.dwFlags & GLIML_DDSF_RGB) && (hdr->ddspf.dwRGBBitCount == 24)) {
-        this->format = GLIML_GL_BGR;
-        this->internalFormat = GLIML_GL_RGB8;
+        // FIXME: this is actually BGR, but this isn't support in OpenGLES2
+        this->format = GLIML_GL_RGB;
+        this->internalFormat = GLIML_GL_RGB;
         this->type = GLIML_GL_UNSIGNED_BYTE;
         bytesPerElement = 3;
     }
