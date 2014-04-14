@@ -12,17 +12,23 @@ Minimalistic image loader library for GL projects:
 - no dynamic memory allocation if image file format allows it
 - overridable assert and memory allocation functions
 
+
 Basic usage:
 
 1. load file data into memory
-2. create empty **gliml::context** object 
-3. call **gliml::load()** to 'convert' the file data into the gliml::context object
+2. call **gliml::is_dds()** to check if data is DDS
+2. create **gliml::context** object 
+3. call **gliml::context::load_dds()** to 'convert' the file data into the gliml::context object
 4. setup a GL texture using the data in the gliml::context object
-5. call **gliml::release()** to free any dynamically allocated memory
+
+See Oryol for real-world example:
+
+https://github.com/floooh/oryol/blob/master/code/Modules/Render/gl/glTextureLoader.cc
 
 Sample code (WIP):
 
 ```cpp
+#define GLIML_ASSERT(x) my_assert(x)
 #include "gliml/gliml.h"
 
 void main() {
@@ -39,7 +45,7 @@ void main() {
     // now extract the file data into GL data using gliml, gliml tries
     // to determine the file format from the image data
     gliml::context ctx;
-    if (ctx.load(&buffer.front(), size)) {
+    if (ctx.load_dds(&buffer.front(), size)) {
         
         // create a GL texture
         GLuint gltx;
