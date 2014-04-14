@@ -42,8 +42,7 @@ void main() {
     file.read(buffer.data(), size);
     file.close();
     
-    // now extract the file data into GL data using gliml, gliml tries
-    // to determine the file format from the image data
+    // now extract the file data into GL data using gliml
     gliml::context ctx;
     if (ctx.load_dds(&buffer.front(), size)) {
         
