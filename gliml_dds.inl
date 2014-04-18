@@ -25,7 +25,7 @@ context::load_dds(const void* data, unsigned int byteSize) {
     // cubemap?
     bool isCubeMap = false;
     if (GLIML_DDSF_CUBEMAP & hdr->dwCaps2) {
-        this->target = GLIML_GL_TEXTURE_2D;
+        this->target = GLIML_GL_TEXTURE_CUBE_MAP;
         this->is2D = true;
         this->is3D = false;
         this->numFaces = 6;
@@ -170,11 +170,11 @@ context::load_dds(const void* data, unsigned int byteSize) {
         else {
             curFace.target = this->target;
         }
-        curFace.numMipmaps = hdr->dwMipMapCount;
+        curFace.numMipmaps = (hdr->dwMipMapCount == 0) ? 1 : hdr->dwMipMapCount;
         
         // for each mipmap
-        unsigned int mipIndex;
-        for (mipIndex = 0; mipIndex < hdr->dwMipMapCount; mipIndex++) {
+        int mipIndex;
+        for (mipIndex = 0; mipIndex < curFace.numMipmaps; mipIndex++) {
             face::mipmap& curMip = curFace.mipmaps[mipIndex];
             
             // mipmap dimensions
