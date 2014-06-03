@@ -22,6 +22,8 @@
 #define GLIML_GL_COMPRESSED_RGBA_S3TC_DXT1_EXT 0x83F1
 #define GLIML_GL_COMPRESSED_RGBA_S3TC_DXT3_EXT 0x83F2
 #define GLIML_GL_COMPRESSED_RGBA_S3TC_DXT5_EXT 0x83F3
+#define GLIML_GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG 0x8C02
+#define GLIML_GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG 0x8C03
 #define GLIML_GL_TEXTURE_CUBE_MAP_POSITIVE_X 0x8515
 #define GLIML_GL_TEXTURE_CUBE_MAP_NEGATIVE_X 0x8516
 #define GLIML_GL_TEXTURE_CUBE_MAP_POSITIVE_Y 0x8517
@@ -65,6 +67,12 @@ typedef double          GLclampd;       /* double precision float in [0,1] */
 bool is_dds(const void* data, unsigned int size);
 #endif
 
+
+#ifndef GLIML_NO_PVR
+/// test if image data is PVRTC
+bool is_pvr(const void* data, unsigned int size);
+#endif
+
 class context {
 public:
     /// default constructor
@@ -75,6 +83,10 @@ public:
     #ifndef GLIML_NO_DDS
     /// load DDS image data into context
     bool load_dds(const void* data, unsigned int size);
+    #endif
+    #ifndef GLIML_NO_PVRTC
+    /// load PVRTC image data into context
+    bool load_pvr(const void* data, unsigned int size);
     #endif
     /// get detailed error code if load returns false
     int error() const;
@@ -144,6 +156,9 @@ private:
 #include "gliml.inl"
 #ifndef GLIML_NO_DDS
 #include "gliml_dds.h"
+#endif
+#ifndef GLIML_NO_PVR
+#include "gliml_pvr.h"
 #endif
 
 } // namespace gliml
