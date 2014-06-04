@@ -158,7 +158,6 @@ context::load_dds(const void* data, unsigned int byteSize) {
         face& curFace = this->faces[faceIndex];
         if (isCubeMap) {
             switch (faceIndex) {
-                // FIXME: RIGHT ORDER!, e.g. Y must be swapped
                 case 0:     curFace.target = GLIML_GL_TEXTURE_CUBE_MAP_POSITIVE_X; break;
                 case 1:     curFace.target = GLIML_GL_TEXTURE_CUBE_MAP_NEGATIVE_X; break;
                 case 2:     curFace.target = GLIML_GL_TEXTURE_CUBE_MAP_POSITIVE_Y; break;
