@@ -13,6 +13,23 @@ inline context::~context() {
 }
 
 //------------------------------------------------------------------------------
+inline bool
+context::load(const void* data, unsigned int size) {
+    #ifndef GLIML_NO_DDS
+    if (is_dds(data, size)) {
+        return this->load_dds(data, size);
+    }
+    #endif
+    #ifndef GLIML_NO_PVR
+    if (is_pvr(data, size)) {
+        return this->load_pvr(data, size);
+    }
+    #endif
+    this->errorCode = GLIML_ERROR_UNKNOWN_FILE_FORMAT;
+    return false;
+}
+
+//------------------------------------------------------------------------------
 inline void
 context::clear() {
     this->errorCode = GLIML_SUCCESS;

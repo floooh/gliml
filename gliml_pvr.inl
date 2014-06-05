@@ -23,14 +23,14 @@ context::load_pvr(const void* data, unsigned int byteSize) {
     dataBytePtr += sizeof(pvr_header) + hdr->metaDataSize;
     
     // texture arrays not yet supported
-    if (hdr->numSurfaces > 0) {
+    if (hdr->numSurfaces > 1) {
         this->errorCode = GLIML_ERROR_TEXTURE_ARRAYS_NOT_SUPPORTED;
         return false;
     }
     
     // cube map?
     bool isCubeMap = false;
-    if ((hdr->numFaces != 0) && (hdr->numFaces != 6)) {
+    if ((hdr->numFaces != 1) && (hdr->numFaces != 6)) {
         this->errorCode = GLIML_ERROR_INVALID_NUMBER_OF_CUBEMAP_FACES;
         return false;
     }
@@ -57,6 +57,7 @@ context::load_pvr(const void* data, unsigned int byteSize) {
     }
     
     // image format
+    this->isCompressed = true;
     if (hdr->pixelFormat0 == 1) {
         this->format = this->internalFormat = GLIML_GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG;
     }

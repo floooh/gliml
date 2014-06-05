@@ -86,10 +86,12 @@ public:
     /// load DDS image data into context
     bool load_dds(const void* data, unsigned int size);
     #endif
-    #ifndef GLIML_NO_PVRTC
+    #ifndef GLIML_NO_PVR
     /// load PVRTC image data into context
     bool load_pvr(const void* data, unsigned int size);
     #endif
+    /// auto-detect format and load
+    bool load(const void* data, unsigned int size);
     /// get detailed error code if load returns false
     int error() const;
     /// get the texture target of context
@@ -156,6 +158,7 @@ private:
 #define GLIML_ERROR_INVALID_COMPRESSED_FORMAT (1)
 #define GLIML_ERROR_TEXTURE_ARRAYS_NOT_SUPPORTED (2)
 #define GLIML_ERROR_INVALID_NUMBER_OF_CUBEMAP_FACES (3)
+#define GLIML_ERROR_UNKNOWN_FILE_FORMAT (4)
 
 #include "gliml.inl"
 #ifndef GLIML_NO_DDS
