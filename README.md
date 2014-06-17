@@ -9,16 +9,15 @@ Minimalistic image loader library for GL projects:
 - focus on compressed formats that can be dumped right into GL texture objects
 - doesn't use C++ exceptions, RTTI, STL, strings or file functions
 - doesn't call into GL, doesn't include GL headers
-- no dynamic memory allocation if image file format allows it
-- overridable assert and memory allocation functions
+- no dynamic memory allocation
+- overridable assert macro
 
 
 Basic usage:
 
 1. load file data into memory
-2. call **gliml::is_dds()** to check if data is DDS
 2. create **gliml::context** object 
-3. call **gliml::context::load_dds()** to 'convert' the file data into the gliml::context object
+3. call **gliml::context::load()** to parse the file data into the gliml::context object
 4. setup a GL texture using the data in the gliml::context object
 
 See Oryol for real-world example:
@@ -44,7 +43,7 @@ void main() {
     
     // now extract the file data into GL data using gliml
     gliml::context ctx;
-    if (ctx.load_dds(&buffer.front(), size)) {
+    if (ctx.load(&buffer.front(), size)) {
         
         // create a GL texture
         GLuint gltx;
