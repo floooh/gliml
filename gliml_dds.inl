@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-bool
+inline bool
 is_dds(const void* data, unsigned int byteSize) {
     if (byteSize > sizeof(dds_header)) {
         const dds_header* hdr = (const dds_header*) data;
@@ -13,7 +13,7 @@ is_dds(const void* data, unsigned int byteSize) {
 }
 
 //------------------------------------------------------------------------------
-bool
+inline bool
 context::load_dds(const void* data, unsigned int byteSize) {
     GLIML_ASSERT(gliml::is_dds(data, byteSize));
     this->clear();

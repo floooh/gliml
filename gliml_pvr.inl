@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-bool
+inline bool
 is_pvr(const void* data, unsigned int byteSize) {
     if (byteSize > sizeof(pvr_header)) {
         const pvr_header* hdr = (const pvr_header*) data;
@@ -13,7 +13,7 @@ is_pvr(const void* data, unsigned int byteSize) {
 }
 
 //------------------------------------------------------------------------------
-bool
+inline bool
 context::load_pvr(const void* data, unsigned int byteSize) {
     GLIML_ASSERT(gliml::is_pvr(data, byteSize));
     this->clear();
