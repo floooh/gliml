@@ -57,7 +57,7 @@ void main() {
             glTexParameteri(ctx.texture_target(), GL_TEXTURE_WRAP_R, GL_REPEAT);
         }
         glTexParameteri(ctx.texture_target(), GL_MAG_FILTER, GL_LINEAR);
-        if (ctx.num_mips() > 0) {
+        if (ctx.num_mipmaps() > 1) {
             glTexParameteri(ctx.texture_target(), GL_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         else {
             glTexParameteri(ctx.texture_target(), GL_MIN_FILTER, GL_LINEAR);
@@ -66,7 +66,7 @@ void main() {
         // for each (cube-map) face...
         for (int face_index = 0; face_index < ctx.num_faces(); face_index++) {
             // for each mip-map level
-            for (int mip_index = 0; mip_index < ctx.num_mips(face); mip_index++) {
+            for (int mip_index = 0; mip_index < ctx.num_mipmaps(face); mip_index++) {
                 if (ctx.is_compressed()) {
                     // compressed
                     if (ctx.is_2d()) {
