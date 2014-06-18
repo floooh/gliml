@@ -49,6 +49,12 @@ context::load_dds(const void* data, unsigned int byteSize) {
     // image format
     int bytesPerElement = 0;
     if (hdr->ddspf.dwFlags & GLIML_DDSF_FOURCC) {
+        // test if DXT compressed formats are supported by GL implementation
+        if (!this->dxtEnabled) {
+            this->errorCode = GLIML_ERROR_DXT_NOT_ENABLED;
+            return false;
+        }
+    
         this->isCompressed = true;
         switch (hdr->ddspf.dwFourCC) {
             case GLIML_FOURCC_DXT1:

@@ -17,6 +17,7 @@ Basic usage:
 
 1. load file data into memory
 2. create **gliml::context** object 
+3. enable DXT and/or PVR support depending on GL extensions
 3. call **gliml::context::load()** to parse the file data into the gliml::context object
 4. setup a GL texture using the data in the gliml::context object
 
@@ -30,7 +31,7 @@ Sample code (WIP):
 #define GLIML_ASSERT(x) my_assert(x)
 #include "gliml/gliml.h"
 
-void main() {
+void glimlSample() {
 
     // load file into memory (gliml doesn't have any file I/O functions)
     std::ifstream file("my_texture.dds", std::ios::in | std::ios::binary);
@@ -41,8 +42,14 @@ void main() {
     file.read(buffer.data(), size);
     file.close();
     
+    // check GL for DXT / PVR support
+    bool hasDXTExtension = ...;
+    bool hasPVRExtension = ...;
+
     // now extract the file data into GL data using gliml
     gliml::context ctx;
+    ctx.enable_dxt(hasDXTExtension);   
+    ctx.enable_pvr(hasPVRExtension);
     if (ctx.load(&buffer.front(), size)) {
         
         // create a GL texture

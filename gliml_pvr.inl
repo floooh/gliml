@@ -57,6 +57,10 @@ context::load_pvr(const void* data, unsigned int byteSize) {
     }
     
     // image format
+    if (!this->pvrEnabled) {
+        this->errorCode = GLIML_ERROR_PVR_NOT_ENABLED;
+        return false;
+    }
     this->isCompressed = true;
     if (hdr->pixelFormat0 == 1) {
         this->format = this->internalFormat = GLIML_GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG;
