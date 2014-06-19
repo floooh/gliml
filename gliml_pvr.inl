@@ -57,8 +57,8 @@ context::load_pvr(const void* data, unsigned int byteSize) {
     }
     
     // image format
-    if (!this->pvrEnabled) {
-        this->errorCode = GLIML_ERROR_PVR_NOT_ENABLED;
+    if (!this->pvrtcEnabled) {
+        this->errorCode = GLIML_ERROR_PVRTC_NOT_ENABLED;
         return false;
     }
     this->isCompressed = true;

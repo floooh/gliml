@@ -82,10 +82,10 @@ public:
     /// destructor
     ~context();
     
-    /// enable or disable DXT  support (set depending on DXT GL extension)
+    /// enable or disable DXT support (set depending on DXT GL extension)
     void enable_dxt(bool b);
-    /// enable or disable PVR support (set depending on PVR GL extension)
-    void enable_pvr(bool b);
+    /// enable or disable PVRTC support (set depending on PVRTC GL extension)
+    void enable_pvrtc(bool b);
 
     #ifndef GLIML_NO_DDS
     /// load DDS image data into context
@@ -138,7 +138,7 @@ private:
     static const int MaxNumMipmaps = 16;
     
     bool dxtEnabled;
-    bool pvrEnabled;
+    bool pvrtcEnabled;
     int errorCode;
     GLenum target;
     bool isCompressed;
@@ -167,7 +167,7 @@ private:
 #define GLIML_ERROR_INVALID_NUMBER_OF_CUBEMAP_FACES (3)
 #define GLIML_ERROR_UNKNOWN_FILE_FORMAT (4)
 #define GLIML_ERROR_DXT_NOT_ENABLED (5)
-#define GLIML_ERROR_PVR_NOT_ENABLED (6)
+#define GLIML_ERROR_PVRTC_NOT_ENABLED (6)
 
 #include "gliml.inl"
 #ifndef GLIML_NO_DDS

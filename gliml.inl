@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------------
 inline context::context() :
 dxtEnabled(false),
-pvrEnabled(false) {
+pvrtcEnabled(false) {
     this->clear();
 }
 
@@ -22,8 +22,8 @@ context::enable_dxt(bool b) {
 
 //------------------------------------------------------------------------------
 inline void
-context::enable_pvr(bool b) {
-    this->pvrEnabled = b;
+context::enable_pvrtc(bool b) {
+    this->pvrtcEnabled = b;
 }
 
 //------------------------------------------------------------------------------

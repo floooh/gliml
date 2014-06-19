@@ -44,12 +44,12 @@ void glimlSample() {
     
     // check GL for DXT / PVR support
     bool hasDXTExtension = ...;
-    bool hasPVRExtension = ...;
+    bool hasPVRTCExtension = ...;
 
     // now extract the file data into GL data using gliml
     gliml::context ctx;
     ctx.enable_dxt(hasDXTExtension);   
-    ctx.enable_pvr(hasPVRExtension);
+    ctx.enable_pvrtc(hasPVRTCExtension);
     if (ctx.load(&buffer.front(), size)) {
         
         // create a GL texture
