@@ -5,7 +5,8 @@
 //------------------------------------------------------------------------------
 inline context::context() :
 dxtEnabled(false),
-pvrtcEnabled(false) {
+pvrtcEnabled(false),
+etc2Enabled(false) {
     this->clear();
 }
 
@@ -27,6 +28,12 @@ context::enable_pvrtc(bool b) {
 }
 
 //------------------------------------------------------------------------------
+inline void
+context::enable_etc2(bool b) {
+    this->etc2Enabled = b;
+}
+
+//------------------------------------------------------------------------------
 inline bool
 context::load(const void* data, unsigned int size) {
     #ifndef GLIML_NO_DDS
@@ -37,6 +44,11 @@ context::load(const void* data, unsigned int size) {
     #ifndef GLIML_NO_PVR
     if (is_pvr(data, size)) {
         return this->load_pvr(data, size);
+    }
+    #endif
+    #ifndef GLIML_NO_KTX
+    if (is_ktx(data, size)) {
+        return this->load_ktx(data, size);
     }
     #endif
     this->errorCode = GLIML_ERROR_UNKNOWN_FILE_FORMAT;

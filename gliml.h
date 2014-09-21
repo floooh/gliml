@@ -9,6 +9,7 @@
     GLIML_ASSERT(x)     - your custom assert implementation, default is assert
     GLIML_NO_DDS        - don't include DDS support
     GLIML_NO_PVR        - don't include PVR support
+    GLIML_NO_KTX        - don't include KTX support
 */
 
 #ifndef GLIML_ASSERT
@@ -26,6 +27,12 @@
 #define GLIML_GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG 0x8C01
 #define GLIML_GL_COMPRESSED_RGBA_PVRTC_4BPPV1_IMG 0x8C02
 #define GLIML_GL_COMPRESSED_RGBA_PVRTC_2BPPV1_IMG 0x8C03
+#define GLIML_GL_COMPRESSED_RGB8_ETC2 0x9274
+#define GLIML_GL_COMPRESSED_SRGB8_ETC2 0x9275
+#define GLIML_GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2 0x9276
+#define GLIML_GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2 0x9277
+#define GLIML_GL_COMPRESSED_RGBA8_ETC2_EAC 0x9278
+#define GLIML_GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC 0x9279
 #define GLIML_GL_TEXTURE_CUBE_MAP_POSITIVE_X 0x8515
 #define GLIML_GL_TEXTURE_CUBE_MAP_NEGATIVE_X 0x8516
 #define GLIML_GL_TEXTURE_CUBE_MAP_POSITIVE_Y 0x8517
@@ -64,15 +71,19 @@ typedef float           GLclampf;       /* single precision float in [0,1] */
 typedef double          GLdouble;       /* double precision float */
 typedef double          GLclampd;       /* double precision float in [0,1] */
     
+// test if image data is in DDS format
 #ifndef GLIML_NO_DDS
-/// test if image data is DDS
 bool is_dds(const void* data, unsigned int size);
 #endif
 
-
+// test if image data is in PVR format
 #ifndef GLIML_NO_PVR
-/// test if image data is PVRTC
 bool is_pvr(const void* data, unsigned int size);
+#endif
+
+// test if image data is in KTX format
+#ifndef GLIML_NO_KTX
+bool is_ktx(const void* data, unsigned int size);
 #endif
 
 class context {
@@ -86,6 +97,8 @@ public:
     void enable_dxt(bool b);
     /// enable or disable PVRTC support (set depending on PVRTC GL extension)
     void enable_pvrtc(bool b);
+    /// enable or disable ETC2 support (set depending on ETC2 GL extension)
+    void enable_etc2(bool b);
 
     #ifndef GLIML_NO_DDS
     /// load DDS image data into context
@@ -94,6 +107,10 @@ public:
     #ifndef GLIML_NO_PVR
     /// load PVRTC image data into context
     bool load_pvr(const void* data, unsigned int size);
+    #endif
+    #ifndef GLIML_NO_KTX
+    /// load KTX image data into context
+    bool load_ktx(const void* data, unsigned int size);
     #endif
     /// auto-detect format and load
     bool load(const void* data, unsigned int size);
@@ -139,6 +156,7 @@ private:
     
     bool dxtEnabled;
     bool pvrtcEnabled;
+    bool etc2Enabled;
     int errorCode;
     GLenum target;
     bool isCompressed;
@@ -168,6 +186,8 @@ private:
 #define GLIML_ERROR_UNKNOWN_FILE_FORMAT (4)
 #define GLIML_ERROR_DXT_NOT_ENABLED (5)
 #define GLIML_ERROR_PVRTC_NOT_ENABLED (6)
+#define GLIML_ERROR_ETC2_NOT_ENABLED (7)
+#define GLIML_ERROR_ENDIAN_MISMATCH (8)
 
 #include "gliml.inl"
 #ifndef GLIML_NO_DDS
@@ -175,6 +195,9 @@ private:
 #endif
 #ifndef GLIML_NO_PVR
 #include "gliml_pvr.h"
+#endif
+#ifndef GLIML_NO_KTX
+#include "gliml_ktx.h"
 #endif
 
 } // namespace gliml
