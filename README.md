@@ -12,12 +12,15 @@ Minimalistic image loader library for GL projects:
 - no dynamic memory allocation
 - overridable assert macro
 
+File formats: DDS, PVR, KTX
+
+Texture formats: DXT1, DXT3, DXT5, PVR2BPP, PVR4BPP, ETC2
 
 Basic usage:
 
 1. load file data into memory
 2. create **gliml::context** object 
-3. enable DXT and/or PVR support depending on GL extensions
+3. enable DXT, PVR, ETC2 support depending on GL extensions/version
 3. call **gliml::context::load()** to parse the file data into the gliml::context object
 4. setup a GL texture using the data in the gliml::context object
 
@@ -45,11 +48,13 @@ void glimlSample() {
     // check GL for DXT / PVR support
     bool hasDXTExtension = ...;
     bool hasPVRTCExtension = ...;
+    bool hasETC2 = ...;
 
     // now extract the file data into GL data using gliml
     gliml::context ctx;
     ctx.enable_dxt(hasDXTExtension);   
     ctx.enable_pvrtc(hasPVRTCExtension);
+    ctx.enable_etc2(hasETC2)
     if (ctx.load(&buffer.front(), size)) {
         
         // create a GL texture
