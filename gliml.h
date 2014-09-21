@@ -97,7 +97,7 @@ public:
     void enable_dxt(bool b);
     /// enable or disable PVRTC support (set depending on PVRTC GL extension)
     void enable_pvrtc(bool b);
-    /// enable or disable ETC2 support (set depending on ETC2 GL extension)
+    /// enable or disable ETC2 support 
     void enable_etc2(bool b);
 
     #ifndef GLIML_NO_DDS
