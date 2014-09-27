@@ -111,12 +111,6 @@ context::load_ktx(const void* data, unsigned int byteSize) {
         }
     }
 
-    // number of mipmaps
-    int numMips = hdr->numberOfMipmapLevels;
-    if (0 == numMips) {
-        numMips = 1;
-    }
-
     // setup face-data
     int faceIndex, mipIndex;
     for (faceIndex = 0; faceIndex < this->numFaces; faceIndex++) {
