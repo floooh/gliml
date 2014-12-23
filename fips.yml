@@ -3,5 +3,5 @@
 #
 ---
 exports:
-    header-dirs: .
+    header-dirs: [ . ]
 
