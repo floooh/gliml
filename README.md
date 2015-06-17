@@ -68,17 +68,17 @@ void glimlSample() {
         if (ctx.is_3d()) {
             glTexParameteri(ctx.texture_target(), GL_TEXTURE_WRAP_R, GL_REPEAT);
         }
-        glTexParameteri(ctx.texture_target(), GL_MAG_FILTER, GL_LINEAR);
-        if (ctx.num_mipmaps() > 1) {
-            glTexParameteri(ctx.texture_target(), GL_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(ctx.texture_target(), GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        if (ctx.num_mipmaps(0) > 1) {
+            glTexParameteri(ctx.texture_target(), GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         else {
-            glTexParameteri(ctx.texture_target(), GL_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(ctx.texture_target(), GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         }
   
         // for each (cube-map) face...
         for (int face_index = 0; face_index < ctx.num_faces(); face_index++) {
             // for each mip-map level
-            for (int mip_index = 0; mip_index < ctx.num_mipmaps(face); mip_index++) {
+            for (int mip_index = 0; mip_index < ctx.num_mipmaps(face_index); mip_index++) {
                 if (ctx.is_compressed()) {
                     // compressed
                     if (ctx.is_2d()) {
@@ -111,7 +111,7 @@ void glimlSample() {
                     if (ctx.is_2d()) {
                         // 2D or CUBE texture
                         glTexImage2D(ctx.image_target(face_index),
-                                     mip,
+                                     mip_index,
                                      ctx.image_internal_format(),
                                      ctx.image_width(face_index, mip_index),
                                      ctx.image_height(face_index, mip_index),
