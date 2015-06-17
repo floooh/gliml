@@ -53,8 +53,7 @@ context::load_dds(const void* data, unsigned int byteSize) {
         if (!this->dxtEnabled) {
             this->errorCode = GLIML_ERROR_DXT_NOT_ENABLED;
             return false;
-        }
-    
+        }    
         this->isCompressed = true;
         switch (hdr->ddspf.dwFourCC) {
             case GLIML_FOURCC_DXT1:
@@ -76,87 +75,109 @@ context::load_dds(const void* data, unsigned int byteSize) {
     }
     else if ((hdr->ddspf.dwFlags & (GLIML_DDSF_RGBA|GLIML_DDSF_RGB)) && (hdr->ddspf.dwRGBBitCount == 32)) {
         // 32-bit RGBA, check byte order
-        this->format = GLIML_GL_RGBA;
-        this->type = GLIML_GL_UNSIGNED_BYTE;
         bytesPerElement = 4;
+        this->type = GLIML_GL_UNSIGNED_BYTE;
+        this->internalFormat = GLIML_GL_RGBA;
         if (hdr->ddspf.dwRBitMask == 0x00FF0000) {
             // Direct3D style BGRA
-            // FIXME!
-            this->internalFormat = GLIML_GL_RGBA;
+            if (this->bgraEnabled) {
+                this->format = GLIML_GL_BGRA;
+            }
+            else {
+                this->errorCode = GLIML_ERROR_BGRA_NOT_ENABLED;
+                return false;
+            }
         }
         else {
             // OpenGLES style RGBA
-            this->internalFormat = GLIML_GL_RGBA;
+            this->format = GLIML_GL_RGBA;
         }
     }    
     else if ((hdr->ddspf.dwFlags & GLIML_DDSF_RGB) && (hdr->ddspf.dwRGBBitCount == 24)) {
         // 24-bit RGB, check byte order
-        this->format = GLIML_GL_RGB;
-        this->type = GLIML_GL_UNSIGNED_BYTE;
         bytesPerElement = 3;
+        this->type = GLIML_GL_UNSIGNED_BYTE;
+        this->internalFormat = GLIML_GL_RGB;
         if (hdr->ddspf.dwRBitMask == 0x00FF0000) {
             // Direct3D style BGR
-            // FIXME!
-            this->internalFormat = GLIML_GL_RGB;
+            if (this->bgraEnabled) {
+                this->format = GLIML_GL_BGR;
+            }
+            else {
+                this->errorCode = GLIML_ERROR_BGRA_NOT_ENABLED;
+                return false;
+            }
         }
         else {
             // OpenGLES style RGB
-            this->internalFormat = GLIML_GL_RGB;
+            this->format = GLIML_GL_RGB;
         }
     }
     else if (hdr->ddspf.dwRGBBitCount == 16) {
-        bytesPerElement = 2;
         // 16-bit RGB(A)
+        bytesPerElement = 2;
         if (hdr->ddspf.dwABitMask == 0) {
             // RGB565 or BGR565
-            this->format = GLIML_GL_RGB;
             this->type = GLIML_GL_UNSIGNED_SHORT_5_6_5;
+            this->internalFormat = GLIML_GL_RGB;
             if (hdr->ddspf.dwRBitMask == (0x1F << 11)) {
                 // Direct3D style 
-                // FIXME!
-                this->internalFormat = GLIML_GL_RGB;
+                if (this->bgraEnabled) {
+                    this->format = GLIML_GL_BGR;
+                }
+                else {
+                    this->errorCode = GLIML_ERROR_BGRA_NOT_ENABLED;
+                    return false;
+                }
             }
             else {
                 // OpenGLES style
-                this->internalFormat = GLIML_GL_RGB;
+                this->format = GLIML_GL_RGB;
             }
         }
         else {
             // RGBA4 or BGRA4 or RGBA5551 or BGRA5551
-            this->format = GLIML_GL_RGBA;
+             this->internalFormat = GLIML_GL_RGBA;
             if (hdr->ddspf.dwRBitMask == 0x00F0) {
                 // Direct3D style bgra4
-                // FIXME!
-                this->type = GLIML_GL_UNSIGNED_SHORT_4_4_4_4;
-                this->internalFormat = GLIML_GL_RGBA;
+                if (this->bgraEnabled) {
+                    this->type = GLIML_GL_UNSIGNED_SHORT_4_4_4_4;
+                    this->format = GLIML_GL_BGRA;
+                }
+                else {
+                    this->errorCode = GLIML_ERROR_BGRA_NOT_ENABLED;
+                    return false;
+                }
             }
             else if (hdr->ddspf.dwRBitMask == 0xF000) {
                 // OpenGLES style rgba4
                 this->type = GLIML_GL_UNSIGNED_SHORT_4_4_4_4;
-                this->internalFormat = GLIML_GL_RGBA;
+                this->format = GLIML_GL_RGBA;
             }
             else if (hdr->ddspf.dwRBitMask == (0x1F << 1)) {
                 // Direc3D style bgra5551
-                // FIXME!
-                this->type = GLIML_GL_UNSIGNED_SHORT_5_5_5_1;
-                this->internalFormat = GLIML_GL_RGBA;
+                if (this->bgraEnabled) {
+                    this->type = GLIML_GL_UNSIGNED_SHORT_5_5_5_1;
+                    this->format = GLIML_GL_BGRA;
+                }
+                else {
+                    this->errorCode = GLIML_ERROR_BGRA_NOT_ENABLED;
+                    return false;
+                }
             }
             else {
                 // OpenGLES style rgba5551
                 this->type = GLIML_GL_UNSIGNED_SHORT_5_5_5_1;
-                this->internalFormat = GLIML_GL_RGBA;
+                this->format = GLIML_GL_RGBA;
             }
         }
     }
-/*
     else if (hdr->ddspf.dwRGBBitCount == 8) {
-        // FIXME!
         this->format = GLIML_GL_LUMINANCE;
         this->internalFormat = GLIML_GL_LUMINANCE;
         this->type = GLIML_GL_UNSIGNED_BYTE;
         bytesPerElement = 1;
     }
-*/
     
     // for each face...
     int faceIndex;

@@ -45,6 +45,8 @@
 #define GLIML_GL_RGBA 0x1908
 #define GLIML_GL_LUMINANCE 0x1909
 #define GLIML_GL_LUMINANCE_ALPHA 0x190A
+#define GLIML_GL_BGRA 0x80E1
+#define GLIML_GL_BGR 0x80E0
 
 #define GLIML_GL_UNSIGNED_BYTE 0x1401
 #define GLIML_GL_UNSIGNED_SHORT_4_4_4_4 0x8033
@@ -99,6 +101,8 @@ public:
     void enable_pvrtc(bool b);
     /// enable or disable ETC2 support 
     void enable_etc2(bool b);
+    /// enable BGRA support
+    void enable_bgra(bool b);
 
     #ifndef GLIML_NO_DDS
     /// load DDS image data into context
@@ -157,6 +161,7 @@ private:
     bool dxtEnabled;
     bool pvrtcEnabled;
     bool etc2Enabled;
+    bool bgraEnabled;
     int errorCode;
     GLenum target;
     bool isCompressed;
@@ -188,6 +193,7 @@ private:
 #define GLIML_ERROR_PVRTC_NOT_ENABLED (6)
 #define GLIML_ERROR_ETC2_NOT_ENABLED (7)
 #define GLIML_ERROR_ENDIAN_MISMATCH (8)
+#define GLIML_ERROR_BGRA_NOT_ENABLED (9)
 
 #include "gliml.inl"
 #ifndef GLIML_NO_DDS

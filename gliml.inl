@@ -6,7 +6,8 @@
 inline context::context() :
 dxtEnabled(false),
 pvrtcEnabled(false),
-etc2Enabled(false) {
+etc2Enabled(false),
+bgraEnabled(false) {
     this->clear();
 }
 
@@ -31,6 +32,12 @@ context::enable_pvrtc(bool b) {
 inline void
 context::enable_etc2(bool b) {
     this->etc2Enabled = b;
+}
+
+//------------------------------------------------------------------------------
+inline void
+context::enable_bgra(bool b) {
+    this->bgraEnabled = b;
 }
 
 //------------------------------------------------------------------------------
