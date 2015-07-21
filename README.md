@@ -26,7 +26,7 @@ Basic usage:
 
 See Oryol for real-world example:
 
-https://github.com/floooh/oryol/blob/master/code/Modules/Gfx/gl/glTextureLoader.cc
+https://github.com/floooh/oryol/blob/master/code/Modules/Assets/Gfx/TextureLoader.cc
 
 Sample code (WIP):
 
